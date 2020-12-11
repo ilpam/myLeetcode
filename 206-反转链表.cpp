@@ -41,3 +41,17 @@ public:
         return prev;
     }
 };
+
+//递归解法，注意基础条件缺一不可
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (!head) return nullptr;
+        if (!head->next) return head;
+        ListNode *prev = head;
+        ListNode *remain = reverseList(prev->next);
+        prev->next->next = prev;
+        prev->next = nullptr;
+        return remain;
+    }
+};

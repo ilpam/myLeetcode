@@ -37,24 +37,45 @@ private:
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-        stack<TreeNode *> route;
-        vector<int> result;
+        stack<TreeNode*> stk;
         TreeNode *curr = root;
-
+        vector<int> result;
         while (true) {
-            while (curr != nullptr) {
-                route.push(curr);
-                result.push_back(curr->vstkal);
+            while (curr) {
+                stk.push(curr);
+                result.push_back(curr->val);
                 curr = curr->left;
             }
-            if (!route.size()) break;
-            curr = route.top();
+            if (stk.empty()) break;
+            curr = stk.top();
             curr = curr->right;
-            route.pop();
+            stk.pop();
         }
         return result;
     }
-}; 
+};
+
+//整理后的leetcode版本，你不需要处理root == null的情况，因为已经自动处理
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        stack<TreeNode*> stk;
+        TreeNode *curr = root;
+        vector<int> result;
+        while (stk.size() || curr) {
+            while (curr) {
+                stk.push(curr);
+                result.push_back(curr->val);
+                curr = curr->left;
+            }
+            curr = stk.top();
+            stk.pop();
+            curr = curr->right; 
+        }
+        return result;
+    }
+};
+
 
 //leetcode 版本
 class Solution {
@@ -96,7 +117,6 @@ void travPre_I1(BinNode<T> *root, VST &visit)
 }
 
 // DJH迭代2，与leetcode不同的是，push的时候是压入当前结点的右节点
-
 vector<int> preorderTraversal(TreeNode* root) {
     stack<TreeNode *> stk;
     vector<int> result;

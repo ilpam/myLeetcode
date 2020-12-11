@@ -75,3 +75,30 @@ public:
         return res;
     }
 };
+
+//第二次我自己做的
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        stack<TreeNode*> stk;
+        vector<int> result;
+        TreeNode *curr = root;
+        TreeNode *prev = nullptr;
+        while (stk.size() || curr) {
+            while (curr) {
+                stk.push(curr);
+                curr = curr->left;
+            }
+            curr = stk.top();
+            if (curr->right && prev != curr->right) {   //因为从右子树返回到curr的时候，如果不加prev != curr->right，那么又会再次进入右结点，造成死循环
+                curr = curr->right;
+            } else {
+                prev = curr;
+                result.push_back(curr->val);
+                curr = nullptr;    //记得，从右子树返回的时候，一定要将curr清空（强迫下一次再次从stack pop），否则会死循环
+                stk.pop();
+            }
+        }
+        return result;
+    }
+};

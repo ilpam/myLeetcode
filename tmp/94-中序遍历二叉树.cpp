@@ -1,3 +1,25 @@
+
+
+//递归解法
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        inorder_traverse(root);
+        return result;
+    }
+
+    void inorder_traverse(TreeNode *root) {
+        if (!root) return;
+        inorder_traverse(root->left);
+        result.push_back(root->val);
+        inorder_traverse(root->right);
+    }
+
+    vector<int> result;
+
+};
+
+
 //my
 class Solution {
 public:
@@ -18,6 +40,28 @@ public:
             result.push_back(curr->val);
             curr = curr->right;
             route.pop();
+        }
+        return result;
+    }
+};
+
+// leetcode整理
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        stack<TreeNode*> stk;
+        TreeNode *curr = root;
+        vector<int> result;
+
+        while (stk.size() || curr) {
+            while (curr) {
+                stk.push(curr);
+                curr = curr->left;
+            }
+            curr = stk.top();
+            stk.pop();
+            result.push_back(curr->val);
+            curr = curr->right;
         }
         return result;
     }
